@@ -1,108 +1,109 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Pro Calculator</title>
+  <title>Smart Tools Hub</title>
   <style>
     body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      background: #1e1e2f;
       font-family: Arial;
-    }
-
-    .calculator {
-      background: #2c2c3e;
+      background: #0f172a;
+      color: white;
+      text-align: center;
       padding: 20px;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
 
-    #display {
-      width: 100%;
-      height: 60px;
-      font-size: 24px;
-      margin-bottom: 10px;
-      text-align: right;
+    h1 { color: #38bdf8; }
+
+    .box {
+      background: #1e293b;
+      padding: 20px;
+      margin: 15px auto;
+      border-radius: 12px;
+      width: 300px;
+    }
+
+    input, button {
       padding: 10px;
+      margin: 5px;
+      border-radius: 8px;
       border: none;
-      border-radius: 10px;
-      background: #111;
-      color: #fff;
-    }
-
-    .buttons {
-      display: grid;
-      grid-template-columns: repeat(4, 70px);
-      gap: 10px;
     }
 
     button {
-      height: 60px;
-      font-size: 20px;
-      border: none;
-      border-radius: 10px;
+      background: #38bdf8;
       cursor: pointer;
-    }
-
-    .num { background: #3a3a4f; color: white; }
-    .op { background: orange; color: white; }
-    .clear { background: red; color: white; }
-    .equal { background: green; color: white; }
-
-    button:hover {
-      opacity: 0.8;
     }
   </style>
 </head>
 <body>
 
-<div class="calculator">
-  <input type="text" id="display" disabled>
+<h1>🔥 Smart Tools Hub</h1>
 
-  <div class="buttons">
-    <button class="clear" onclick="clearDisplay()">C</button>
-    <button class="op" onclick="append('/')">/</button>
-    <button class="op" onclick="append('*')">*</button>
-    <button class="op" onclick="append('-')">-</button>
+<!-- AGE CALCULATOR -->
+<div class="box">
+  <h3>Age Calculator</h3>
+  <input type="date" id="dob">
+  <button onclick="calcAge()">Calculate</button>
+  <p id="ageResult"></p>
+</div>
 
-    <button class="num" onclick="append('7')">7</button>
-    <button class="num" onclick="append('8')">8</button>
-    <button class="num" onclick="append('9')">9</button>
-    <button class="op" onclick="append('+')">+</button>
+<!-- EMI CALCULATOR -->
+<div class="box">
+  <h3>EMI Calculator</h3>
+  <input type="number" id="loan" placeholder="Loan Amount">
+  <input type="number" id="rate" placeholder="Interest %">
+  <input type="number" id="time" placeholder="Months">
+  <button onclick="calcEMI()">Calculate</button>
+  <p id="emiResult"></p>
+</div>
 
-    <button class="num" onclick="append('4')">4</button>
-    <button class="num" onclick="append('5')">5</button>
-    <button class="num" onclick="append('6')">6</button>
-    <button class="equal" onclick="calculate()">=</button>
+<!-- RANDOM PASSWORD -->
+<div class="box">
+  <h3>Password Generator</h3>
+  <button onclick="genPass()">Generate</button>
+  <p id="passResult"></p>
+</div>
 
-    <button class="num" onclick="append('1')">1</button>
-    <button class="num" onclick="append('2')">2</button>
-    <button class="num" onclick="append('3')">3</button>
-    <button class="num" onclick="append('.')">.</button>
-
-    <button class="num" onclick="append('0')">0</button>
-  </div>
+<!-- SIMPLE CALCULATOR -->
+<div class="box">
+  <h3>Quick Calculator</h3>
+  <input id="calcInput" placeholder="e.g. 5+5">
+  <button onclick="calc()">=</button>
+  <p id="calcResult"></p>
 </div>
 
 <script>
-  function append(value) {
-    document.getElementById("display").value += value;
-  }
+function calcAge() {
+  let dob = new Date(document.getElementById("dob").value);
+  let diff = Date.now() - dob.getTime();
+  let age = new Date(diff).getUTCFullYear() - 1970;
+  document.getElementById("ageResult").innerText = "Age: " + age;
+}
 
-  function clearDisplay() {
-    document.getElementById("display").value = "";
-  }
+function calcEMI() {
+  let P = document.getElementById("loan").value;
+  let r = document.getElementById("rate").value / 12 / 100;
+  let n = document.getElementById("time").value;
+  let emi = (P * r * Math.pow(1+r,n)) / (Math.pow(1+r,n)-1);
+  document.getElementById("emiResult").innerText = "EMI: " + Math.round(emi);
+}
 
-  function calculate() {
-    try {
-      let result = eval(document.getElementById("display").value);
-      document.getElementById("display").value = result;
-    } catch {
-      document.getElementById("display").value = "Error";
-    }
+function genPass() {
+  let chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let pass = "";
+  for (let i=0;i<8;i++) {
+    pass += chars.charAt(Math.floor(Math.random()*chars.length));
   }
+  document.getElementById("passResult").innerText = pass;
+}
+
+function calc() {
+  let exp = document.getElementById("calcInput").value;
+  try {
+    document.getElementById("calcResult").innerText = eval(exp);
+  } catch {
+    document.getElementById("calcResult").innerText = "Error";
+  }
+}
 </script>
 
 </body>
