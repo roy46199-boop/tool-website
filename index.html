@@ -1,23 +1,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Smart Tools Pro</title>
+  <title>Smart Tools Pro Max</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
     body {
       margin: 0;
       font-family: Arial;
-      background: linear-gradient(135deg, #0f172a, #1e293b);
+      background: linear-gradient(135deg, #0f172a, #020617);
       color: white;
     }
 
     header {
-      padding: 20px;
       text-align: center;
-      font-size: 28px;
+      padding: 20px;
+      font-size: 30px;
       font-weight: bold;
-      background: #020617;
       color: #38bdf8;
     }
 
@@ -29,15 +28,11 @@
     }
 
     .card {
-      background: #1e293b;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(10px);
       padding: 20px;
       border-radius: 15px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.4);
-      transition: 0.3s;
-    }
-
-    .card:hover {
-      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
 
     input, button {
@@ -54,16 +49,19 @@
       font-weight: bold;
     }
 
+    .copy {
+      background: #22c55e;
+    }
+
     .result {
       margin-top: 10px;
       color: #22c55e;
+      word-wrap: break-word;
     }
 
     footer {
       text-align: center;
       padding: 15px;
-      background: #020617;
-      margin-top: 20px;
       font-size: 14px;
       color: #94a3b8;
     }
@@ -72,7 +70,7 @@
 
 <body>
 
-<header>🔥 Smart Tools Pro</header>
+<header>🚀 Smart Tools Pro Max</header>
 
 <div class="container">
 
@@ -97,30 +95,41 @@
   <!-- PASSWORD -->
   <div class="card">
     <h3>Password Generator</h3>
-    <button onclick="genPass()">Generate Password</button>
+    <button onclick="genPass()">Generate</button>
     <div class="result" id="pass"></div>
+    <button class="copy" onclick="copyText('pass')">Copy</button>
   </div>
 
   <!-- CALCULATOR -->
   <div class="card">
-    <h3>Quick Calculator</h3>
-    <input id="exp" placeholder="e.g. 10+20">
+    <h3>Calculator</h3>
+    <input id="exp" placeholder="10+20">
     <button onclick="calc()">Calculate</button>
     <div class="result" id="res"></div>
   </div>
 
-  <!-- HASHTAG TOOL -->
+  <!-- HASHTAG -->
   <div class="card">
     <h3>Hashtag Generator</h3>
-    <input id="tagInput" placeholder="Enter keyword (fashion)">
+    <input id="tagInput" placeholder="fashion">
     <button onclick="genTags()">Generate</button>
     <div class="result" id="tags"></div>
+    <button class="copy" onclick="copyText('tags')">Copy</button>
+  </div>
+
+  <!-- BIO GENERATOR -->
+  <div class="card">
+    <h3>Instagram Bio Generator</h3>
+    <input id="name" placeholder="Your Name">
+    <button onclick="genBio()">Generate</button>
+    <div class="result" id="bio"></div>
+    <button class="copy" onclick="copyText('bio')">Copy</button>
   </div>
 
 </div>
 
 <footer>
-  💰 Free Online Tools | Made for Growth 🚀
+💰 Free Tools | Built for Growth 🚀
 </footer>
 
 <script>
@@ -131,9 +140,9 @@ function calcAge() {
 }
 
 function calcEMI() {
-  let P = loan.value;
-  let r = rate.value / 12 / 100;
-  let n = time.value;
+  let P = document.getElementById("loan").value;
+  let r = document.getElementById("rate").value / 12 / 100;
+  let n = document.getElementById("time").value;
   let emi = (P*r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
   document.getElementById("emi").innerText = "EMI: ₹" + Math.round(emi);
 }
@@ -149,16 +158,28 @@ function genPass() {
 
 function calc() {
   try {
-    res.innerText = eval(exp.value);
+    document.getElementById("res").innerText = eval(document.getElementById("exp").value);
   } catch {
-    res.innerText = "Error";
+    document.getElementById("res").innerText = "Error";
   }
 }
 
 function genTags() {
-  let k = tagInput.value;
-  let tags = `#${k}, #${k}style, #${k}look, #${k}trend, #${k}fashion, #viral, #trending, #insta, #explore`;
+  let k = document.getElementById("tagInput").value;
+  let tags = `#${k}, #${k}style, #${k}trend, #viral, #explore, #insta, #reels, #trending`;
   document.getElementById("tags").innerText = tags;
+}
+
+function genBio() {
+  let n = document.getElementById("name").value;
+  let bio = `${n} | Dream big 💫 | Hustle daily 🔥 | Success loading 🚀`;
+  document.getElementById("bio").innerText = bio;
+}
+
+function copyText(id) {
+  let text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text);
+  alert("Copied!");
 }
 </script>
 
