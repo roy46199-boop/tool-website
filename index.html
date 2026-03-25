@@ -1,29 +1,49 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Smart Tools Hub</title>
+  <title>Smart Tools Pro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
+      margin: 0;
       font-family: Arial;
-      background: #0f172a;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
       color: white;
+    }
+
+    header {
+      padding: 20px;
       text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      background: #020617;
+      color: #38bdf8;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
       padding: 20px;
     }
 
-    h1 { color: #38bdf8; }
-
-    .box {
+    .card {
       background: #1e293b;
       padding: 20px;
-      margin: 15px auto;
-      border-radius: 12px;
-      width: 300px;
+      border-radius: 15px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
     }
 
     input, button {
+      width: 100%;
       padding: 10px;
-      margin: 5px;
+      margin: 6px 0;
       border-radius: 8px;
       border: none;
     }
@@ -31,78 +51,114 @@
     button {
       background: #38bdf8;
       cursor: pointer;
+      font-weight: bold;
+    }
+
+    .result {
+      margin-top: 10px;
+      color: #22c55e;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background: #020617;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #94a3b8;
     }
   </style>
 </head>
+
 <body>
 
-<h1>🔥 Smart Tools Hub</h1>
+<header>🔥 Smart Tools Pro</header>
 
-<!-- AGE CALCULATOR -->
-<div class="box">
-  <h3>Age Calculator</h3>
-  <input type="date" id="dob">
-  <button onclick="calcAge()">Calculate</button>
-  <p id="ageResult"></p>
+<div class="container">
+
+  <!-- AGE -->
+  <div class="card">
+    <h3>Age Calculator</h3>
+    <input type="date" id="dob">
+    <button onclick="calcAge()">Calculate</button>
+    <div class="result" id="age"></div>
+  </div>
+
+  <!-- EMI -->
+  <div class="card">
+    <h3>EMI Calculator</h3>
+    <input type="number" id="loan" placeholder="Loan Amount">
+    <input type="number" id="rate" placeholder="Interest %">
+    <input type="number" id="time" placeholder="Months">
+    <button onclick="calcEMI()">Calculate</button>
+    <div class="result" id="emi"></div>
+  </div>
+
+  <!-- PASSWORD -->
+  <div class="card">
+    <h3>Password Generator</h3>
+    <button onclick="genPass()">Generate Password</button>
+    <div class="result" id="pass"></div>
+  </div>
+
+  <!-- CALCULATOR -->
+  <div class="card">
+    <h3>Quick Calculator</h3>
+    <input id="exp" placeholder="e.g. 10+20">
+    <button onclick="calc()">Calculate</button>
+    <div class="result" id="res"></div>
+  </div>
+
+  <!-- HASHTAG TOOL -->
+  <div class="card">
+    <h3>Hashtag Generator</h3>
+    <input id="tagInput" placeholder="Enter keyword (fashion)">
+    <button onclick="genTags()">Generate</button>
+    <div class="result" id="tags"></div>
+  </div>
+
 </div>
 
-<!-- EMI CALCULATOR -->
-<div class="box">
-  <h3>EMI Calculator</h3>
-  <input type="number" id="loan" placeholder="Loan Amount">
-  <input type="number" id="rate" placeholder="Interest %">
-  <input type="number" id="time" placeholder="Months">
-  <button onclick="calcEMI()">Calculate</button>
-  <p id="emiResult"></p>
-</div>
-
-<!-- RANDOM PASSWORD -->
-<div class="box">
-  <h3>Password Generator</h3>
-  <button onclick="genPass()">Generate</button>
-  <p id="passResult"></p>
-</div>
-
-<!-- SIMPLE CALCULATOR -->
-<div class="box">
-  <h3>Quick Calculator</h3>
-  <input id="calcInput" placeholder="e.g. 5+5">
-  <button onclick="calc()">=</button>
-  <p id="calcResult"></p>
-</div>
+<footer>
+  💰 Free Online Tools | Made for Growth 🚀
+</footer>
 
 <script>
 function calcAge() {
   let dob = new Date(document.getElementById("dob").value);
-  let diff = Date.now() - dob.getTime();
-  let age = new Date(diff).getUTCFullYear() - 1970;
-  document.getElementById("ageResult").innerText = "Age: " + age;
+  let age = new Date(Date.now() - dob).getUTCFullYear() - 1970;
+  document.getElementById("age").innerText = "Age: " + age;
 }
 
 function calcEMI() {
-  let P = document.getElementById("loan").value;
-  let r = document.getElementById("rate").value / 12 / 100;
-  let n = document.getElementById("time").value;
-  let emi = (P * r * Math.pow(1+r,n)) / (Math.pow(1+r,n)-1);
-  document.getElementById("emiResult").innerText = "EMI: " + Math.round(emi);
+  let P = loan.value;
+  let r = rate.value / 12 / 100;
+  let n = time.value;
+  let emi = (P*r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
+  document.getElementById("emi").innerText = "EMI: ₹" + Math.round(emi);
 }
 
 function genPass() {
   let chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let pass = "";
-  for (let i=0;i<8;i++) {
-    pass += chars.charAt(Math.floor(Math.random()*chars.length));
+  for (let i=0;i<10;i++) {
+    pass += chars[Math.floor(Math.random()*chars.length)];
   }
-  document.getElementById("passResult").innerText = pass;
+  document.getElementById("pass").innerText = pass;
 }
 
 function calc() {
-  let exp = document.getElementById("calcInput").value;
   try {
-    document.getElementById("calcResult").innerText = eval(exp);
+    res.innerText = eval(exp.value);
   } catch {
-    document.getElementById("calcResult").innerText = "Error";
+    res.innerText = "Error";
   }
+}
+
+function genTags() {
+  let k = tagInput.value;
+  let tags = `#${k}, #${k}style, #${k}look, #${k}trend, #${k}fashion, #viral, #trending, #insta, #explore`;
+  document.getElementById("tags").innerText = tags;
 }
 </script>
 
